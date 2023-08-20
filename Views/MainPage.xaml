@@ -1,7 +1,124 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="PocketNetworker.MainPage">
+             x:Class="PocketNetworker.MainPage"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="DarkGrey">
 
+    <StackLayout Background="Orange">
+        <VerticalStackLayout BackgroundColor="Green">
+            <HorizontalStackLayout BackgroundColor="HotPink" 
+                                   HorizontalOptions="Center"
+                                   Margin="0,20, 0, 10">
+                <Entry ClearButtonVisibility="WhileEditing"
+                       Keyboard="Numeric" 
+                       Placeholder="192.168.0.1"
+                       PlaceholderColor="Black"/>
+                <Label Text="/" VerticalOptions="Center" FontSize="24"/>
+                <Entry ClearButtonVisibility="WhileEditing"
+                       Keyboard="Numeric" 
+                       Placeholder="24"
+                       PlaceholderColor="Black"/>
+            </HorizontalStackLayout>
+
+            <Grid BackgroundColor="Beige" ColumnSpacing="2" RowSpacing="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="115" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Label HorizontalTextAlignment="End"
+                       Text="Class:" />
+                <Label Grid.Column="1" 
+                       Text="C" />
+
+                <Label HorizontalTextAlignment="End" 
+                       Text="IP Address:"
+                       Grid.Row="2" />
+                <Label Grid.Column="1" 
+                       Grid.Row="2"  
+                       Text="192.168.0.1" />
+
+                <Label Grid.Row="3" 
+                       HorizontalTextAlignment="End"
+                       Text="IP Binary:" />
+                <Label Grid.Row="3" 
+                       Grid.Column="1" 
+                       Text="11000000.10101000.00000000.00000001" />
+
+                <Label Grid.Row="4" 
+                       HorizontalTextAlignment="End"
+                       Text="Netmask:" />
+                <Label Grid.Row="4" 
+                       Grid.Column="1" 
+                       Text="255.255.255.0" />
+
+                <Label Grid.Row="5" 
+                       Text="Netmask Binary:" />
+                <Label Grid.Row="5" 
+                       Grid.Column="1" 
+                       Text="11111111.11111111.11111111.00000000" 
+                       TextColor="Red"/>
+
+                <Label Grid.Row="6" 
+                       Text="Wildcard:" />
+                <Label Grid.Row="6" 
+                       Grid.Column="1" 
+                       Text="0.0.0.255" />
+
+                <Label Grid.Row="7" 
+                       Text="Wildcard Binary:" />
+                <Label Grid.Row="7" 
+                       Grid.Column="1" 
+                       Text="00000000.00000000.00000000.11111111" />
+
+                <Label Grid.Row="8" 
+                       Text="Network:" />
+                <Label Grid.Row="8" 
+                       Grid.Column="1" 
+                       Text="192.168.0.0/24" />
+
+                <Label Grid.Row="9" 
+                       Text="Network Binary:" />
+                <Label Grid.Row="9" 
+                       Grid.Column="1" 
+                       Text="11000000.10101000.00000000.00000000" />
+
+                <Label Grid.Row="10" 
+                       Text="Broadcast:" />
+                <Label Grid.Row="10" 
+                       Grid.Column="1" 
+                       Text="192.168.0.255" />
+
+                <Label Grid.Row="11" 
+                       Text="Network Binary:" />
+                <Label Grid.Row="11" 
+                       Grid.Column="1" 
+                       Text="11000000.10101000.00000000.11111111" />
+
+                <Label Grid.Row="12" 
+                       Text="Hosts/Net:" />
+                <Label Grid.Row="12" 
+                       Grid.Column="1" 
+                       Text="254" />
+
+            </Grid>
+        </VerticalStackLayout>
+    </StackLayout>
 
 </ContentPage>
