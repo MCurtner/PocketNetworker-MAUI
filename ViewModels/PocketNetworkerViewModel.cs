@@ -26,6 +26,27 @@ public partial class PocketNetworkerViewModel : ObservableObject
     [ObservableProperty]
     string netmaskIpAddr;
 
+    [ObservableProperty]
+    string wildcardBinary;
+
+    [ObservableProperty]
+    string wildcardIpAddr;
+
+    [ObservableProperty]
+    string networkBinary;
+
+    [ObservableProperty]
+    string networkIpAddr;
+
+    [ObservableProperty]
+    string broadcastBinary;
+
+    [ObservableProperty]
+    string broadcastIpAddr;
+
+    [ObservableProperty]
+    string hostsPerNet;
+
     /// <summary>
     /// Calulate all field values.
     /// </summary>
@@ -39,11 +60,16 @@ public partial class PocketNetworkerViewModel : ObservableObject
         }
 
         NetworkClass = CalculateNetworkClass(octetIntArr[0]);
-
         IpAddrBinary = FormattedBinaryString(StringArrayToString(octetBinaryArr));
-
         NetmaskBinary = FormattedBinaryString(CalculateNetmaskBinaryString(Netmask));
         NetmaskIpAddr = FormattIntArrayToIpAddressString(BinaryStringToIntArray(NetmaskBinary));
+        WildcardBinary = FormattedBinaryString(CalculateWilcardBinaryString(Netmask));
+        WildcardIpAddr = FormattIntArrayToIpAddressString(BinaryStringToIntArray(WildcardBinary));
+        NetworkBinary = LogicalANDing(IpAddrBinary, NetmaskBinary);
+        NetworkIpAddr = FormattIntArrayToIpAddressString(BinaryStringToIntArray(NetworkBinary));
+        BroadcastBinary = LogicalORing(IpAddrBinary, WildcardBinary);
+        BroadcastIpAddr = FormattIntArrayToIpAddressString(BinaryStringToIntArray(BroadcastBinary));
+        HostsPerNet = CalculateHostsPerNet(NetmaskBinary).ToString();
     }
 
     /// <summary>
@@ -62,6 +88,36 @@ public partial class PocketNetworkerViewModel : ObservableObject
         }
 
         return intArr;
+    }
+
+    /// <summary>
+    /// Calculate the number of max usable hosts based on the netmask.
+    /// </summary>
+    /// <param name="netmaskBinary"></param>
+    /// <returns>int value of max number of usable hosts (2^n - 2).</returns>
+    public int CalculateHostsPerNet(string netmaskBinary)
+    {
+        int maxHosts = CalculateMaxHosts(netmaskBinary);
+        return maxHosts - 2;
+    }
+
+    /// <summary>
+    /// Calculate the number of max host based on the netmask.
+    /// </summary>
+    /// <param name="netmaskBinary"></param>
+    /// <returns>int value of max number of hosts 2^n.</returns>
+    public int CalculateMaxHosts(string netmaskBinary)
+    {
+        int emptyBits = 0;
+        for (int i = 0; i < netmaskBinary.Length; i++) 
+        {
+            if (netmaskBinary[i] == '0')
+            {
+                emptyBits += 1;
+            }
+        }
+
+        return (int)Math.Pow(2, emptyBits);
     }
 
 
@@ -107,13 +163,26 @@ public partial class PocketNetworkerViewModel : ObservableObject
     }
 
     /// <summary>
+    /// Calculate the wildcard binary string from the provided netmask.
+    /// </summary>
+    /// <param name="netmaskString"></param>
+    /// <returns>Wildcard binary string.</returns>
+    public string CalculateWilcardBinaryString(string netmaskString)
+    {
+        int totalDigits = 32;
+        int netmaskNum = int.Parse(netmaskString);
+
+        return StringExtensions.Repeat("0", (Math.Max(0, netmaskNum))) + StringExtensions.Repeat("1", Math.Max(0, totalDigits - netmaskNum));
+    }
+
+    /// <summary>
     /// Formats the provided binary string to include octet decimals.
     /// </summary>
     /// <param name="binaryString"></param>
     /// <returns>Formatted binary string.</returns>
     public string FormattedBinaryString(string binaryString)
     {
-        StringBuilder sb = new StringBuilder(binaryString);
+        StringBuilder sb = new(binaryString);
         for (int i = 0; i < binaryString.Length; i++)
         {
             if (i == 8 || i == 17 || i == 26)
@@ -132,7 +201,7 @@ public partial class PocketNetworkerViewModel : ObservableObject
     /// <returns>String formatted ip address.</returns>
     public string FormattIntArrayToIpAddressString(int[] intArr)
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new();
         for (int i = 0; i < intArr.Length; i++)
         {
             sb.Append(intArr[i]);
@@ -143,6 +212,43 @@ public partial class PocketNetworkerViewModel : ObservableObject
         }
 
         return sb.ToString();
+    }
+
+    /// <summary>
+    /// Calculate the bitwise AND of two binary strings.
+    /// </summary>
+    /// <param name="bs1"></param>
+    /// <param name="bs2"></param>
+    /// <returns>String output of bitwise AND.</returns>
+    public string LogicalANDing(string bs1, string bs2)
+    {
+        StringBuilder stringBuilder = new();
+        for (int i = 0; i < bs1.Length; i++)
+        {
+            // '0' converts the char to int.
+            stringBuilder.Append(bs1[i] - '0' & bs2[i] - '0');
+        }
+
+
+        return stringBuilder.ToString();
+    }
+
+    /// <summary>
+    /// Calculate the bitwise OR of two binary strings.
+    /// </summary>
+    /// <param name="bs1"></param>
+    /// <param name="bs2"></param>
+    /// <returns>String output of bitwise OR.</returns>
+    public string LogicalORing(string bs1, string bs2)
+    {
+        StringBuilder stringBuilder = new();
+        for (int i = 0; i < bs1.Length; i++)
+        {
+            // '0' converts the char to int.
+            stringBuilder.Append(bs1[i] - '0' | bs2[i] - '0');
+        }
+
+        return stringBuilder.ToString();
     }
 
 
@@ -186,7 +292,7 @@ public partial class PocketNetworkerViewModel : ObservableObject
     /// <returns></returns>
     public String StringArrayToString(string[] stringArr)
     {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new();
         for (int i = 0; i < stringArr.Length; i++)
         {
             sb.Append(stringArr[i]);

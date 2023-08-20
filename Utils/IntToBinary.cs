@@ -23,20 +23,6 @@ public class IntToBinary
     }
 
     /// <summary>
-    /// 
-    /// </summary>
-/*    private static void AddBlocks()
-    {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < binaryString.Length; i++)
-        {
-            stringBuilder.Append(binaryString[i]);
-        }
-
-        binaryString = stringBuilder.ToString();
-    }*/
-
-    /// <summary>
     /// Convert the provided number to a binary string.
     /// </summary>
     /// <param name="num"></param>
