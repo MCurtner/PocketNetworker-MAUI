@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using PocketNetworker.ViewModels;
 
 namespace PocketNetworker
 {
@@ -18,6 +19,9 @@ namespace PocketNetworker
 #if DEBUG
 		builder.Logging.AddDebug();
 #endif
+
+            builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddSingleton<PocketNetworkerViewModel>();
 
             return builder.Build();
         }

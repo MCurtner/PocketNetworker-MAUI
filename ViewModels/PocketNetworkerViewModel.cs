@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
-using Microsoft.Extensions.Primitives;
+using CommunityToolkit.Mvvm.Input;
 using PocketNetworker.Utils;
-using System.Net.Sockets;
 using System.Text;
 
 namespace PocketNetworker.ViewModels;
@@ -48,8 +47,18 @@ public partial class PocketNetworkerViewModel : ObservableObject
     string hostsPerNet;
 
     /// <summary>
+    /// Initialization.
+    /// </summary>
+    public PocketNetworkerViewModel() 
+    {
+        Clear();
+    }
+
+
+    /// <summary>
     /// Calulate all field values.
     /// </summary>
+    [RelayCommand]
     private void Calculate()
     {
         int[] octetIntArr = SplitIpAddress(IpAddress);
@@ -71,6 +80,30 @@ public partial class PocketNetworkerViewModel : ObservableObject
         BroadcastIpAddr = FormattIntArrayToIpAddressString(BinaryStringToIntArray(BroadcastBinary));
         HostsPerNet = CalculateHostsPerNet(NetmaskBinary).ToString();
     }
+
+    [RelayCommand]
+    void Clear()
+    {
+        // Reset Entry Fields
+        IpAddress = "192.168.0.1";
+        Netmask = "24";
+
+        // Clear Data Labels
+        NetworkClass = string.Empty;
+        IpAddrBinary = string.Empty;
+        NetmaskBinary = string.Empty;
+        NetmaskIpAddr = string.Empty;
+        WildcardBinary = string.Empty;
+        WildcardIpAddr = string.Empty;
+        NetworkBinary = string.Empty;
+        NetworkIpAddr = string.Empty;
+        NetworkClass = string.Empty;
+        BroadcastBinary = string.Empty;
+        BroadcastIpAddr = string.Empty;
+        HostsPerNet = string.Empty;
+
+    }
+
 
     /// <summary>
     /// Convert the provided binary string into an int array of ip address octets.

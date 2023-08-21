@@ -2,26 +2,32 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="PocketNetworker.MainPage"
-             Shell.NavBarIsVisible="False"
-             BackgroundColor="DarkGrey">
+             xmlns:viewmodel="clr-namespace:PocketNetworker.ViewModels"
+             x:DataType="viewmodel:PocketNetworkerViewModel"
+             Shell.NavBarIsVisible="False">
 
-    <StackLayout Background="Orange">
-        <VerticalStackLayout BackgroundColor="Green">
-            <HorizontalStackLayout BackgroundColor="HotPink" 
-                                   HorizontalOptions="Center"
-                                   Margin="0,20, 0, 10">
+    <StackLayout>
+        <VerticalStackLayout>
+            <HorizontalStackLayout HorizontalOptions="Center"
+                                   Margin="0, 20, 0, 10">
                 <Entry ClearButtonVisibility="WhileEditing"
-                       Keyboard="Numeric" 
-                       Placeholder="192.168.0.1"
-                       PlaceholderColor="Black"/>
+                       HorizontalTextAlignment="Center"
+                       Keyboard="Numeric"
+                       MinimumWidthRequest="100"
+                       Text="{Binding IpAddress}"/>
                 <Label Text="/" VerticalOptions="Center" FontSize="24"/>
                 <Entry ClearButtonVisibility="WhileEditing"
+                       HorizontalTextAlignment="Center"
                        Keyboard="Numeric" 
-                       Placeholder="24"
-                       PlaceholderColor="Black"/>
+                       MinimumWidthRequest="50"
+                       Text="{Binding Netmask}"/>
             </HorizontalStackLayout>
 
-            <Grid BackgroundColor="Beige" ColumnSpacing="2" RowSpacing="10">
+            <BoxView Color="Gray"
+             HeightRequest="2"
+             HorizontalOptions="Fill" />
+
+            <Grid ColumnSpacing="5" RowSpacing="10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
@@ -42,82 +48,118 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
-                <Label HorizontalTextAlignment="End"
-                       Text="Class:" />
+                <Label FontAttributes="Bold"
+                       HorizontalTextAlignment="End" 
+                       Text="Class:"
+                       Grid.Row="1" />
                 <Label Grid.Column="1" 
-                       Text="C" />
+                       Grid.Row="1"  
+                       Text="{Binding NetworkClass}" />
 
-                <Label HorizontalTextAlignment="End" 
+                <Label FontAttributes="Bold"
+                       HorizontalTextAlignment="End" 
                        Text="IP Address:"
                        Grid.Row="2" />
                 <Label Grid.Column="1" 
                        Grid.Row="2"  
-                       Text="192.168.0.1" />
+                       Text="{Binding IpAddress}" />
 
-                <Label Grid.Row="3" 
+                <Label FontAttributes="Bold"
+                       Grid.Row="3" 
                        HorizontalTextAlignment="End"
                        Text="IP Binary:" />
                 <Label Grid.Row="3" 
                        Grid.Column="1" 
-                       Text="11000000.10101000.00000000.00000001" />
+                       Text="{Binding IpAddrBinary}" />
 
-                <Label Grid.Row="4" 
+                <Label FontAttributes="Bold"
+                       Grid.Row="4" 
                        HorizontalTextAlignment="End"
                        Text="Netmask:" />
                 <Label Grid.Row="4" 
                        Grid.Column="1" 
-                       Text="255.255.255.0" />
+                       Text="{Binding NetmaskIpAddr}" />
 
-                <Label Grid.Row="5" 
+                <Label FontAttributes="Bold"
+                       Grid.Row="5" 
+                       HorizontalTextAlignment="End"
                        Text="Netmask Binary:" />
                 <Label Grid.Row="5" 
                        Grid.Column="1" 
-                       Text="11111111.11111111.11111111.00000000" 
+                       Text="{Binding NetmaskBinary}" 
                        TextColor="Red"/>
 
-                <Label Grid.Row="6" 
+                <Label FontAttributes="Bold"
+                       Grid.Row="6" 
+                       HorizontalTextAlignment="End"
                        Text="Wildcard:" />
                 <Label Grid.Row="6" 
                        Grid.Column="1" 
-                       Text="0.0.0.255" />
+                       Text="{Binding WildcardIpAddr}" />
 
-                <Label Grid.Row="7" 
+                <Label FontAttributes="Bold"
+                       Grid.Row="7" 
+                       HorizontalTextAlignment="End"
                        Text="Wildcard Binary:" />
                 <Label Grid.Row="7" 
                        Grid.Column="1" 
-                       Text="00000000.00000000.00000000.11111111" />
+                       Text="{Binding WildcardBinary}" />
 
-                <Label Grid.Row="8" 
+                <Label FontAttributes="Bold"
+                       Grid.Row="8" 
+                       HorizontalTextAlignment="End"
                        Text="Network:" />
                 <Label Grid.Row="8" 
                        Grid.Column="1" 
-                       Text="192.168.0.0/24" />
+                       Text="{Binding NetworkIpAddr}" />
 
-                <Label Grid.Row="9" 
+                <Label FontAttributes="Bold"
+                       Grid.Row="9" 
+                       HorizontalTextAlignment="End"
                        Text="Network Binary:" />
                 <Label Grid.Row="9" 
                        Grid.Column="1" 
-                       Text="11000000.10101000.00000000.00000000" />
+                       Text="{Binding NetworkBinary}" />
 
-                <Label Grid.Row="10" 
+                <Label FontAttributes="Bold"
+                       Grid.Row="10" 
+                       HorizontalTextAlignment="End"
                        Text="Broadcast:" />
                 <Label Grid.Row="10" 
                        Grid.Column="1" 
-                       Text="192.168.0.255" />
+                       Text="{Binding BroadcastIpAddr}" />
 
-                <Label Grid.Row="11" 
-                       Text="Network Binary:" />
+                <Label FontAttributes="Bold"
+                       Grid.Row="11" 
+                       HorizontalTextAlignment="End"
+                       Text="Broadcast Binary:" />
                 <Label Grid.Row="11" 
                        Grid.Column="1" 
-                       Text="11000000.10101000.00000000.11111111" />
+                       Text="{Binding BroadcastBinary}" />
 
-                <Label Grid.Row="12" 
+                <Label FontAttributes="Bold"
+                       Grid.Row="12" 
+                       HorizontalTextAlignment="End"
                        Text="Hosts/Net:" />
                 <Label Grid.Row="12" 
                        Grid.Column="1" 
-                       Text="254" />
+                       Text="{Binding HostsPerNet}" />
 
             </Grid>
+
+            <HorizontalStackLayout Spacing="10"
+                                   Padding="30"
+                                   HorizontalOptions="Center">
+                <Button BackgroundColor="Blue"
+                        Command="{Binding CalculateCommand}"
+                        Text="Calculate" 
+                        WidthRequest="100" />
+                <Button BackgroundColor="Red"
+                        Command="{Binding ClearCommand}"
+                        Text="Clear" 
+                        WidthRequest="100" />
+            </HorizontalStackLayout>
+            
         </VerticalStackLayout>
     </StackLayout>
 

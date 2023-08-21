@@ -1,11 +1,14 @@
-﻿namespace PocketNetworker
+﻿using PocketNetworker.ViewModels;
+
+namespace PocketNetworker
 {
     public partial class MainPage : ContentPage
     {
 
-        public MainPage()
+        public MainPage(PocketNetworkerViewModel viewModel)
         {
             InitializeComponent();
+            BindingContext = viewModel;
         }
     }
 }
