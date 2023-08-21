@@ -74,9 +74,9 @@ public partial class PocketNetworkerViewModel : ObservableObject
         NetmaskIpAddr = FormattIntArrayToIpAddressString(BinaryStringToIntArray(NetmaskBinary));
         WildcardBinary = FormattedBinaryString(CalculateWilcardBinaryString(Netmask));
         WildcardIpAddr = FormattIntArrayToIpAddressString(BinaryStringToIntArray(WildcardBinary));
-        NetworkBinary = LogicalANDing(IpAddrBinary, NetmaskBinary);
+        NetworkBinary = FormattedBinaryString(LogicalANDing(IpAddrBinary, NetmaskBinary));
         NetworkIpAddr = FormattIntArrayToIpAddressString(BinaryStringToIntArray(NetworkBinary));
-        BroadcastBinary = LogicalORing(IpAddrBinary, WildcardBinary);
+        BroadcastBinary = FormattedBinaryString(LogicalORing(IpAddrBinary, WildcardBinary));
         BroadcastIpAddr = FormattIntArrayToIpAddressString(BinaryStringToIntArray(BroadcastBinary));
         HostsPerNet = CalculateHostsPerNet(NetmaskBinary).ToString();
     }
@@ -255,6 +255,10 @@ public partial class PocketNetworkerViewModel : ObservableObject
     /// <returns>String output of bitwise AND.</returns>
     public string LogicalANDing(string bs1, string bs2)
     {
+
+        bs1 = bs1.Replace(".", "");
+        bs2 = bs2.Replace(".", "");
+
         StringBuilder stringBuilder = new();
         for (int i = 0; i < bs1.Length; i++)
         {
@@ -274,6 +278,8 @@ public partial class PocketNetworkerViewModel : ObservableObject
     /// <returns>String output of bitwise OR.</returns>
     public string LogicalORing(string bs1, string bs2)
     {
+        bs1 = bs1.Replace(".", "");
+        bs2 = bs2.Replace(".", "");
         StringBuilder stringBuilder = new();
         for (int i = 0; i < bs1.Length; i++)
         {
